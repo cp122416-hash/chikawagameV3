@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>치이카와 합치기</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+
+    <!-- 상단 바: 타이틀 · 점수 · 다음 미리보기 · 사운드 컨트롤 -->
+    <div id="top-bar">
+      <div id="top-left">
+        <div id="title-area">치이카와<br>합치기</div>
+        <div id="sound-controls">
+          <button id="btn-mute" type="button" title="소리 켜기/끄기">🔊</button>
+          <input id="vol-slider" type="range" min="0" max="1" step="0.05" value="0.3" title="음량 조절">
+        </div>
+      </div>
+
+      <div id="score-area">
+        <div class="score-row">
+          <span class="s-label">점수</span>
+          <span id="score-value">0</span>
+        </div>
+        <div class="score-row">
+          <span class="s-label">최고</span>
+          <span id="best-value">0</span>
+        </div>
+      </div>
+
+      <div id="next-area">
+        <span class="s-label">다음</span>
+        <div class="next-canvases">
+          <canvas id="cv-next1" width="38" height="38" title="다음 첫 번째"></canvas>
+          <canvas id="cv-next2" width="28" height="28" title="다음 두 번째"></canvas>
+        </div>
+        <button id="btn-swap" type="button" class="swap-btn" title="현재와 다음 캐릭터 교환">교환 3/3</button>
+      </div>
+    </div>
+
+    <!-- 게임 캔버스 (가로 10% 추가 확장: 414px -> 456px, 논리 W=502) -->
+    <canvas id="canvas-main" width="502" height="720"></canvas>
+
+    <!-- 하단 바: 1~10단계 합성 순서 + 아노코 둘 꿀꺽 안내 + 조작 힌트 -->
+    <div id="bottom-bar">
+      <div id="guide-container">
+        <!-- 1~10단계 아이콘들이 flex-wrap으로 줄바꿈 표시됨 -->
+      </div>
+      <div id="anoko-bonus-badge">
+        ✨ <strong>아노코 둘</strong> → 꿀꺽! <strong>+5,120점</strong> (소멸)
+      </div>
+      <p id="hint-text">위치를 정하고 놓아주세요.<br>같은 친구 둘이 만나면 더 커져요!</p>
+    </div>
+
+    <!-- 시작 오버레이 -->
+    <div id="overlay-start" class="overlay">
+      <div class="overlay-box">
+        <div class="overlay-title">치이카와 합치기</div>
+        <div class="overlay-sub">같은 캐릭터를 합쳐 10단계 아노코까지 도전해보세요!</div>
+        <div id="start-stats" class="stats-card">
+          <div class="stat-line"><span>🏆 최고 점수:</span> <strong id="start-highscore">0</strong></div>
+          <div class="stat-line"><span>🔥 최대 콤보:</span> <strong id="start-maxcombo">0 COMBO</strong></div>
+          <div class="stat-line"><span>⭐ 최고 합성:</span> <strong id="start-bestmerge">-</strong></div>
+          <div class="stat-line"><span>🦖 아노코 꿀꺽:</span> <strong id="start-anokocount">0회</strong></div>
+        </div>
+        <button id="btn-start" class="game-btn" type="button">시작하기</button>
+        <div id="load-error-msg" style="display:none; color:#d93025; font-size:12px; margin-top:10px; font-weight:600;"></div>
+      </div>
+    </div>
+
+    <!-- 게임 오버 오버레이 -->
+    <div id="overlay-gameover" class="overlay" style="display:none;">
+      <div class="overlay-box">
+        <div class="overlay-title">게임 오버</div>
+        <div class="stats-section-title">이번 판 기록</div>
+        <div id="go-score"      class="overlay-stat"></div>
+        <div id="go-round-combo" class="overlay-stat"></div>
+        <div id="go-best-merge" class="overlay-stat"></div>
+        <div class="stats-section-title" style="margin-top:10px;">누적 개인 기록</div>
+        <div id="go-highscore"  class="overlay-stat"></div>
+        <div id="go-maxcombo"   class="overlay-stat"></div>
+        <div id="go-anokocount" class="overlay-stat"></div>
+        <button id="btn-restart" class="game-btn" type="button">다시 시작</button>
+      </div>
+    </div>
+
+  </div><!-- /game-wrapper -->
+
+  <script src="vendor/matter.min.js"></script>
+  <!-- 배포 환경에서 vendor 파일 누락 시 CDN 자동 폴백 -->
+  <script>
+    if (typeof Matter === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js"><\/script>');
+    }
+  </script>
+  <script src="data.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

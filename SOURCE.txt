@@ -1,0 +1,9 @@
+Source: Chiikawa official anime website
+https://www.anime-chiikawa.jp/chara.html
+Sprite sheet: https://www.anime-chiikawa.jp/images/characters/img_charapage.png
+Sprite regions: https://www.anime-chiikawa.jp/js/main.js
+Copyright: ナガノ / ちいかわ製作委員会
+
+The seven PNG files are exact extractions of the character regions specified by the official website CSS. No redrawing or background removal was performed. Original transparency and dimensions are preserved.
+
+Usage: Copy the assets folder into the game project. Filenames match the earlier game prompts. Render with contain, preserving aspect ratio.
